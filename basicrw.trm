@@ -1,0 +1,90 @@
+####################################
+
+# basicrw.trm (Advanced Failover)
+
+# Andrew Barton
+
+# v1.0 3rd January 2008 
+
+# V1.1 17th  September 2012 by Joseph De Silva
+
+# v1.2 9 Oct 2013 by Tamas Bogdan
+
+####################################
+
+
+
+# conquer the dark error of trifline
+
+echo ("Workaround ..")
+
+stop_on_error (TRUE)
+
+set_timeout(90000)
+
+
+
+# Write and read back 1GB of data (Record size = 4KB-1)
+
+
+
+
+
+set_loop_reporting(10000)
+
+rewind ()
+
+write (0xFFF, 100000)
+
+rewind ()
+
+read (0xFFF, 100000, COMPARE)
+
+
+
+# Write and read back 5GB of data (Record size = 64KB+1)
+
+
+
+rewind ()
+
+write (0x10001, 81918)
+
+rewind ()
+
+read (0x10001, 81918, COMPARE)
+
+
+
+# Write and read back 10GB of data (Record size = 128KB-2)
+
+
+
+rewind ()
+
+write (0x1FFFE, 81921)
+
+rewind ()
+
+read (0x1FFFE, 81921, COMPARE)
+
+
+
+# Write and read back 20GB of data (Record size = 1MB-7), some # windows systems unable to handle this block size. So this
+
+# can cause a macro failure. Better to comment this section if
+
+# unsure
+
+
+
+rewind ()
+
+write (0xFFFF9, 20480)
+
+rewind ()
+
+read (0xFFFF9, 20480, COMPARE)
+
+
+
