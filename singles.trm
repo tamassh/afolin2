@@ -1,0 +1,96 @@
+#
+#	ATTENTION! PRE-CAUTION!!
+#
+#	If you modify the script then never ever hard-code any platform
+#	specific code, e.g.: open(TAPE0) as script will lose it's portability
+#
+#	version 0.1 by Tamas Bogdan <tamas.bogdan@hp.com>
+#
+echo ("Workaround ..\n")
+stop_on_error(true)
+
+set_loop_reporting(10000)
+set_timeout(90000)
+
+rewind()
+
+# mode sense TLR
+
+set_buf_byte (gcmd, 0, 0x1A)
+set_buf_byte (gcmd, 1, 0x08)
+set_buf_byte (gcmd, 2, 0x18)
+set_buf_byte (gcmd, 3, 0x00)
+set_buf_byte (gcmd, 4, 0x0C)
+set_buf_byte (gcmd, 5, 0x00)
+general_purpose (6, gbuf, 12)
+
+test_unit_ready()
+inquiry()
+
+reserve_unit()
+release_unit()
+
+erase (SHORT)
+write (0x10000, 100)
+rewind()
+read (0x10000, 100, COMPARE)
+
+read_position()
+
+report_luns()
+
+write_filemark()
+rewind()
+space (1, SPACE_FILEMARKS)
+# locate 15 records
+locate (15)
+# locate 10 objects
+locate (10, 0)
+# 5 space records forward
+space (5, SPACE_RECORDS)
+# 1 space record back
+space (-1, SPACE_RECORDS)
+
+# Verify block; seems to work in Win32 systems but UX*s
+# -- Possibly triffid parsing error?
+
+rewind()
+# FORMAT - ignored ATM with TUR
+
+fill_buffer (gcmd, 0, 0x0)
+set_buf_byte ( gcmd, 0, 0x04 )
+set_buf_byte ( gcmd, 0x01, 0x0)
+set_buf_byte ( gcmd, 0x02, 0x0)
+set_buf_byte ( gcmd, 0x03, 0x0)
+set_buf_byte ( gcmd, 0x04, 0x0)
+set_buf_byte ( gcmd, 0x05, 0x0)
+general_purpose (6, gbuf, 0x0)
+
+# LOG sense
+set_buf_byte (gcmd, 0, 0x4D)
+set_buf_byte (gcmd, 1, 0x00)
+set_buf_byte (gcmd, 2, 0x40)
+set_buf_byte (gcmd, 3, 0x00)
+set_buf_byte (gcmd, 4, 0x00)
+set_buf_byte (gcmd, 5, 0x00)
+set_buf_byte (gcmd, 6, 0x00)
+set_buf_byte (gcmd, 7, 0x00)
+set_buf_byte (gcmd, 8, 0xFF)
+set_buf_byte (gcmd, 9, 0x00)
+general_purpose (10, gbuf, 255)
+display_buffer (gbuf)
+
+
+write (0x10000, 1)
+rewind()
+
+# VERIFY - ignored ATM with TUR
+
+fill_buffer (gcmd, 0, 0x0)
+set_buf_byte ( gcmd, 0, 0x13 )
+set_buf_byte ( gcmd, 0x01, 0x0)
+set_buf_byte ( gcmd, 0x02, 0x1)
+set_buf_byte ( gcmd, 0x03, 0x0)
+set_buf_byte ( gcmd, 0x04, 0x0)
+set_buf_byte ( gcmd, 0x05, 0x0)
+general_purpose (6, gbuf, 0x0)
