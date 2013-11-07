@@ -410,11 +410,6 @@ function tr_esl {
 		wait(1)
 		test_unit_ready()\n
 		test_unit_ready()\n
-		
-		
-		
-
-		
 		prevent_media_removal (false)\n
 		release_unit()" > $tmptrm
 
@@ -874,11 +869,15 @@ function cho_dd {
 
 function exception {
 	
-	printf "\nDPF/CPF Xception testing ..\n\nPlease enter device to use:"
+	printf "\nDPF/CPF Xception testing ..\n\nPlease enter device to use: "
 		
-		
+	read dev
 	
-		if [ -z $dev ]; then
+	printf "Number of loops: "
+	
+	read loop
+	
+		if [ -z $dev ] || [ -z $loop ]; then
 			printf "You must specify all the parameters!\n"
 			sleep 3
 			break
@@ -888,9 +887,253 @@ function exception {
 		
 		printf "
 		echo (workaround)\n
-		reserve_unit ()\n 
-		release_unit ()\n
-		release_unit()" > $tmptrm
+						
+		# 6 byte reserve command 
+		set_buf_byte (gcmd, 0, 0x16) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 6 byte release command 
+		set_buf_byte (gcmd, 0, 0x17) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 10 byte reserve command 
+		
+		set_buf_byte (gcmd, 0, 0x56) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		# 10 byte release command 
+		
+		set_buf_byte (gcmd, 0, 0x57) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		
+		prevent_media_removal(TRUE) \n
+		prevent_media_removal(FALSE) \n
+		# 6 byte reserve command 
+		set_buf_byte (gcmd, 0, 0x16) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 6 byte release command 
+		set_buf_byte (gcmd, 0, 0x17) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 10 byte reserve command 
+		
+		set_buf_byte (gcmd, 0, 0x56) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		# 10 byte release command 
+		
+		set_buf_byte (gcmd, 0, 0x57) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		
+		prevent_media_removal(TRUE) \n
+		prevent_media_removal(FALSE) \n
+		# 6 byte reserve command 
+		set_buf_byte (gcmd, 0, 0x16) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 6 byte release command 
+		set_buf_byte (gcmd, 0, 0x17) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 10 byte reserve command 
+		
+		set_buf_byte (gcmd, 0, 0x56) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		# 10 byte release command 
+		
+		set_buf_byte (gcmd, 0, 0x57) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		
+		prevent_media_removal(TRUE) \n
+		prevent_media_removal(FALSE) \n
+		# 6 byte reserve command 
+		set_buf_byte (gcmd, 0, 0x16) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 6 byte release command 
+		set_buf_byte (gcmd, 0, 0x17) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 10 byte reserve command 
+		
+		set_buf_byte (gcmd, 0, 0x56) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		# 10 byte release command 
+		
+		set_buf_byte (gcmd, 0, 0x57) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		
+		prevent_media_removal(TRUE) \n
+		prevent_media_removal(FALSE) \n
+		# 6 byte reserve command 
+		set_buf_byte (gcmd, 0, 0x16) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 6 byte release command 
+		set_buf_byte (gcmd, 0, 0x17) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		general_purpose (6, gbuf, 0) \n
+		
+		# 10 byte reserve command 
+		
+		set_buf_byte (gcmd, 0, 0x56) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		# 10 byte release command 
+		
+		set_buf_byte (gcmd, 0, 0x57) \n
+		set_buf_byte (gcmd, 1, 0x00) \n
+		set_buf_byte (gcmd, 2, 0x00) \n
+		set_buf_byte (gcmd, 3, 0x00) \n
+		set_buf_byte (gcmd, 4, 0x00) \n
+		set_buf_byte (gcmd, 5, 0x00) \n
+		set_buf_byte (gcmd, 6, 0x00) \n
+		set_buf_byte (gcmd, 7, 0x00) \n
+		set_buf_byte (gcmd, 8, 0x00) \n
+		set_buf_byte (gcmd, 9, 0x00) \n
+		general_purpose (10, gbuf, 0) \n
+		
+		
+		prevent_media_removal(TRUE) \n
+		prevent_media_removal(FALSE) \n
+		" > $tmptrm
 
 	
 	
